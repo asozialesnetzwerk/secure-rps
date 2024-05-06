@@ -1,0 +1,92 @@
+openapi: 3.1.0
+info:
+  title: Rock Paper Scissors Game API
+  version: 0.0.1
+
+components:
+  schemas:
+    Hash:
+      type: object
+      properties:
+        algorithm:
+          type: string
+        hash:
+          type: string
+          minLength: 30
+          maxLength: 2000
+    Re:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        hash:
+          $ref: "#/components/schemas/Hash"
+    Client:
+      type: object
+      properties:
+        name:
+          type: string
+        version:
+          type: string
+        supportedExtensions:
+          type: array
+          items:
+            type: string
+        supportedHashingAlgorithms:
+          type: array
+          items:
+            type: string
+
+paths:
+  /start:
+    post:
+      summary: Start a game of rock paper scissors
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                publicKey:
+                  type: string
+                url:
+                  type: string
+                requiredWins:
+                  type: integer
+                time:
+                  type: integer
+                uuid:
+                  type: string
+                  format: uuid
+                symbols:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    properties:
+                      winsAgainst:
+                        type: array
+                        items:
+                          type: string
+                      losesAgainst:
+                        type: array
+                        items:
+                          type: string
+                client:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    version:
+                      type: string
+                    supportedExtensions:
+                      type: array
+                      items:
+                        type: string
+                    supportedHashingAlgorithms:
+                      type: array
+                      items:
+                        type: string
+                re:
+                  $ref: '#/components/schemas/Re'
