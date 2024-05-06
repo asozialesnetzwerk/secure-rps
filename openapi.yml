@@ -14,14 +14,6 @@ components:
           type: string
           minLength: 30
           maxLength: 2000
-    Re:
-      type: object
-      properties:
-        uuid:
-          type: string
-          format: uuid
-        hash:
-          $ref: "#/components/schemas/Hash"
     Client:
       type: object
       properties:
@@ -37,11 +29,6 @@ components:
           type: array
           items:
             type: string
-    MessageType:
-      type: string
-      enum:
-        - init
-        - ack
     Message:
       type: object
       properties:
@@ -55,6 +42,23 @@ components:
         uuid:
           type: string
           format: uuid
+        re:
+          oneOf:
+            - $ref: '#/components/schemas/MessageRef'
+            - type: "null"
+    MessageRef:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+        hash:
+          $ref: "#/components/schemas/Hash"
+    MessageType:
+      type: string
+      enum:
+        - init
+        - ack
 paths:
   /start:
     post:
@@ -65,7 +69,8 @@ paths:
           application/json:
             schema:
               type: object
-              allOf: [{"$ref": "#/components/schemas/Message"}]
+              allOf:
+                - $ref: "#/components/schemas/Message"
               properties:
                 type:
                   type: string
@@ -92,5 +97,3 @@ paths:
                 client:
                   type: object
                   $ref: '#/components/schemas/Client'
-                re:
-                  $ref: '#/components/schemas/Re'
