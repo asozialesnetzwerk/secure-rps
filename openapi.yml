@@ -37,7 +37,24 @@ components:
           type: array
           items:
             type: string
-
+    MessageType:
+      type: string
+      enum:
+        - init
+        - ack
+    Message:
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/MessageType'
+        publicKey:
+          type: string
+        datetime:
+          type: string
+          format: date-time
+        uuid:
+          type: string
+          format: uuid
 paths:
   /start:
     post:
@@ -48,18 +65,17 @@ paths:
           application/json:
             schema:
               type: object
+              allOf: [{"$ref": "#/components/schemas/Message"}]
               properties:
-                publicKey:
+                type:
                   type: string
+                  enum:
+                    - init
                 url:
                   type: string
+                  format: uri
                 requiredWins:
                   type: integer
-                time:
-                  type: integer
-                uuid:
-                  type: string
-                  format: uuid
                 symbols:
                   type: object
                   additionalProperties:
@@ -75,18 +91,6 @@ paths:
                           type: string
                 client:
                   type: object
-                  properties:
-                    name:
-                      type: string
-                    version:
-                      type: string
-                    supportedExtensions:
-                      type: array
-                      items:
-                        type: string
-                    supportedHashingAlgorithms:
-                      type: array
-                      items:
-                        type: string
+                  $ref: '#/components/schemas/Client'
                 re:
                   $ref: '#/components/schemas/Re'
