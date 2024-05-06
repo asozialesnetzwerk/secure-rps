@@ -5,11 +5,19 @@ info:
 
 components:
   schemas:
+    HashAlg:
+      type: string
+      enum: [
+        'sha512', 'sha512_256', 'sha384', 'sm3', 'blake2s',
+        'sha3_512', 'sha512_224', 'sha3_384', 'shake_128',
+        'md5-sha1', 'sha1', 'ripemd160', 'md5', 'sha3_256',
+        'sha224', 'shake_256', 'blake2b', 'sha3_224', 'sha256'
+      ]
     Hash:
       type: object
       properties:
         algorithm:
-          type: string
+          $ref: '#/components/schemas/HashAlg'
         hash:
           type: string
           minLength: 30
