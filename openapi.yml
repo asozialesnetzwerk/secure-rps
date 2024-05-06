@@ -45,7 +45,7 @@ components:
         re:
           oneOf:
             - $ref: '#/components/schemas/MessageRef'
-            - type: "null"
+            - type: 'null'
     MessageRef:
       type: object
       properties:
@@ -53,12 +53,23 @@ components:
           type: string
           format: uuid
         hash:
-          $ref: "#/components/schemas/Hash"
+          $ref: '#/components/schemas/Hash'
     MessageType:
       type: string
       enum:
         - init
         - ack
+    RoundsInfo:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - firstToXWins
+            - XRounds
+            - XRoundsIncludingTies
+        X:
+          type: integer
 paths:
   /start:
     post:
@@ -70,7 +81,7 @@ paths:
             schema:
               type: object
               allOf:
-                - $ref: "#/components/schemas/Message"
+                - $ref: '#/components/schemas/Message'
               properties:
                 type:
                   type: string
@@ -79,8 +90,8 @@ paths:
                 url:
                   type: string
                   format: uri
-                requiredWins:
-                  type: integer
+                roundsInfo:
+                  $ref: '#/components/schemas/RoundsInfo'
                 symbols:
                   type: object
                   additionalProperties:
