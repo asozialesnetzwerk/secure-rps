@@ -94,6 +94,15 @@ paths:
                         type: array
                         items:
                           type: string
+                      canBeDisabled:
+                        type: boolean
+                        default: false
+                      isEnabledByDefault:
+                        type: boolean
+                        default: true
+                      resetsToDefaultAfterEveryMove:
+                        type: boolean
+                        default: false
                 client:
                   type: object
                   $ref: '#/components/schemas/Client'
